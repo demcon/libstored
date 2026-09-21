@@ -27,7 +27,7 @@
     "python/libstored/data/**": true,
     "python/libstored-*/**": true
   },
-  "clang-format.executable": "clang-format-15",
+  "clang-format.executable": "clang-format-20",
   "cmakeFormat.env": {
     "PYTHONPATH": "${workspaceFolder}/dist/venv"
   },
