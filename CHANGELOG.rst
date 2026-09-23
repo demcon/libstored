@@ -25,6 +25,7 @@ Added
 `````
 
 - ``libstored.protocol.CobsLayer`` and ``stored::CobsLayer`` for COBS padding and framing.
+- ``libstored.wrapper.tcp`` for a TCP-to-ZeroMQ bridge.
 
 .. _Unreleased: https://github.com/DEMCON/libstored/compare/v2.2.0...HEAD
 
