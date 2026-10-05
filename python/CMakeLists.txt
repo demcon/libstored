@@ -179,7 +179,21 @@ else()
 	set(cmake_rm remove -f)
 endif()
 
-if(LIBSTORED_VENV)
+if("${LIBSTORED_IN_VENV}" STREQUAL "")
+	execute_process(
+		COMMAND "${PYTHON_EXECUTABLE}" -c
+			"import sys; print('ON' if sys.prefix != sys.base_prefix else 'OFF')"
+		OUTPUT_VARIABLE LIBSTORED_IN_VENV
+		OUTPUT_STRIP_TRAILING_WHITESPACE
+	)
+
+	set(LIBSTORED_IN_VENV
+	    "${LIBSTORED_IN_VENV}"
+	    CACHE STRING "Whether we are in a virtual environment" FORCE
+	)
+endif()
+
+if(LIBSTORED_IN_VENV)
 	set(build_isolation "--no-isolation")
 else()
 	set(build_isolation "")
