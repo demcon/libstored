@@ -628,6 +628,8 @@ Relationship: SPDXRef-libstored DEPENDS_ON SPDXRef-TinyAES
 				DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/libstored/cmake
 			)
 		endif()
+	else()
+		set_target_properties(${LIBSTORED_LIB_TARGET} PROPERTIES EXCLUDE_FROM_ALL TRUE)
 	endif()
 endfunction()
 
