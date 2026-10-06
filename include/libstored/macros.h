@@ -333,8 +333,12 @@ typedef SSIZE_T ssize_t;
 #    define STORED_cpp_exceptions __cpp_exceptions
 #  endif
 #  if !defined(STORED_cpp_exceptions)
-#    define try	       if_constexpr(true)
-#    define catch(...) if_constexpr(false)
+#    ifndef try
+#      define try if_constexpr(true)
+#    endif
+#    ifndef catch
+#      define catch(...) if_constexpr(false)
+#    endif
 #    define STORED_throw(e)                                       \
 	    do { /* NOLINT(cppcoreguidelines-avoid-do-while) */   \
 		    (void)fprintf(stderr, "Exception: %s\n", #e); \
