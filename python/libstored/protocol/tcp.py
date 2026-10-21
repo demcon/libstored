@@ -56,17 +56,29 @@ class TcpLayer(lprot.ProtocolLayer):
         port = default_port
 
         if connect is not None:
-            parts = connect.split(":", 1)
-            if len(parts) == 2:
-                if parts[0] != "":
-                    server = parts[0]
-                if parts[1] != "":
-                    port = int(parts[1])
+            if connect.startswith("["):
+                address_end = connect.find("]")
+                if address_end < 0:
+                    raise ValueError("invalid bracketed TCP host")
+                server = connect[1:address_end]
+                port_text = connect[address_end + 1 :]
+                if port_text:
+                    if not port_text.startswith(":"):
+                        raise ValueError("invalid bracketed TCP endpoint")
+                    if port_text[1:]:
+                        port = int(port_text[1:])
             else:
-                try:
-                    port = int(parts[0])
-                except ValueError:
-                    server = parts[0]
+                parts = connect.split(":", 1)
+                if len(parts) == 2:
+                    if parts[0] != "":
+                        server = parts[0]
+                    if parts[1] != "":
+                        port = int(parts[1])
+                else:
+                    try:
+                        port = int(parts[0])
+                    except ValueError:
+                        server = parts[0]
 
         return server, port
 
