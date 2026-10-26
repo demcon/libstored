@@ -23,13 +23,14 @@ def build_stack(
     stack: str = "cobs",
 ) -> lprot.ProtocolStack:
     """Build a ZMQ bridge stack for a remote TCP debugger."""
+    tcp_host = f"[{host}]" if ":" in host and not host.startswith("[") else host
     result = lprot.build_stack(
         ",".join(
             [
                 f"zmq={listen}:{zmq_port}",
                 "reqrepcheck",
                 stack,
-                f"tcp={host}:{port}",
+                f"tcp={tcp_host}:{port}",
             ]
         )
     )

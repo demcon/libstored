@@ -132,7 +132,12 @@ class TcpLayer(lprot.ProtocolLayer):
         try:
             self._reader, self._writer = await self._open_connection()
             self._open = True
-            self.logger.debug("TCP connection established to %s:%d", self._server, self._port)
+            server = (
+                f"[{self._server}]"
+                if ":" in self._server and not self._server.startswith("[")
+                else self._server
+            )
+            self.logger.debug("TCP connection established to %s:%d", server, self._port)
             await super().connected()
 
             if self._encode_buffer:
