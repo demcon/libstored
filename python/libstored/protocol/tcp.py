@@ -22,7 +22,7 @@ class TcpLayer(lprot.ProtocolLayer):
         server: str = "localhost",
         port: int = 0,
         connect_timeout_s: float | None = None,
-        connect_retry_s: float = 0.1,
+        connect_retry_s: float = 1,
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
