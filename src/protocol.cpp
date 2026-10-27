@@ -9,7 +9,7 @@
 #ifdef STORED_OS_WINDOWS
 #  include <fcntl.h>
 #  include <io.h>
-#elif !defined(STORED_OS_BAREMETAL)
+#elif defined(STORED_HAVE_STDIO)
 #  include <fcntl.h>
 #  include <unistd.h>
 #endif
@@ -27,7 +27,7 @@
 #elif defined(STORED_OS_WINDOWS)
 #  define delay_ms(ms) Sleep(ms)
 #else
-#  define delay_ms(ms) usleep((ms)*1000L)
+#  define delay_ms(ms) usleep((ms) * 1000L)
 #endif
 
 #if defined(STORED_OS_WINDOWS)
@@ -124,7 +124,7 @@ escape:
 
 char AsciiEscapeLayer::needEscape(char c) const
 {
-	if(!((uint8_t)c & (uint8_t) ~(uint8_t)AsciiEscapeLayer::EscMask)) {
+	if(!((uint8_t)c & (uint8_t)~(uint8_t)AsciiEscapeLayer::EscMask)) {
 		if(!m_all) {
 			// Only escape what conflicts with other protocols.
 			switch(c) {
@@ -1766,7 +1766,8 @@ void Crc32Layer::decode(void* buffer, size_t len)
 		crc = compute(buffer_[i], crc);
 
 	if((crc ^ (uint32_t)final_xor)
-	   != ((uint32_t)((uint32_t)(buffer_[len - 4] << 24U) | (uint32_t)(buffer_[len - 3] << 16U) | (uint32_t)(buffer_[len - 2] << 8U) | buffer_[len - 1])))
+	   != ((uint32_t)((uint32_t)(buffer_[len - 4] << 24U) | (uint32_t)(buffer_[len - 3] << 16U)
+			  | (uint32_t)(buffer_[len - 2] << 8U) | buffer_[len - 1])))
 		// Invalid.
 		return;
 
